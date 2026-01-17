@@ -16,10 +16,10 @@ class GuildOracle(nn.Module):
     Architecture : MLP profond (trop profond !)
     """
 
-    def __init__(self, input_dim: int = 12, hidden_dim: int = 256, num_layers: int = 5):
+    def __init__(self, input_dim: int = 8, hidden_dim: int = 256, num_layers: int = 5):
         """
         Args:
-            input_dim: Nombre de features (8 stats + 4 bruit = 12)
+            input_dim: Nombre de features (8 stats)
             hidden_dim: Dimension des couches cachées
             num_layers: Nombre de couches cachées
         """
@@ -75,7 +75,7 @@ def count_parameters(model: nn.Module) -> int:
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 
-def model_summary(model: nn.Module, input_dim: int = 12):
+def model_summary(model: nn.Module):
     """Affiche un résumé du modèle."""
     print("=" * 50)
     print("Résumé du modèle")
@@ -94,12 +94,12 @@ if __name__ == "__main__":
     # Test du modèle baseline
     print("Test du modèle GuildOracle (baseline)")
 
-    model = GuildOracle(input_dim=12)
+    model = GuildOracle(input_dim=8)
     model_summary(model)
 
     # Test forward pass
     batch_size = 32
-    x = torch.randn(batch_size, 12)
+    x = torch.randn(batch_size, 8)
 
     logits = model(x)
     print(f"\nInput shape: {x.shape}")

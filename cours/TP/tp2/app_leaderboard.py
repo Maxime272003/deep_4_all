@@ -224,7 +224,7 @@ def get_stats() -> dict:
 # Evaluation du modele
 # =============================================================================
 
-def load_model_from_file(model_path: str, input_dim: int = 12) -> tuple:
+def load_model_from_file(model_path: str, input_dim: int = 8) -> tuple:
     """
     Charge un modele et retourne (model, architecture_info) ou (None, error).
 
