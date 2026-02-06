@@ -447,7 +447,7 @@ if __name__ == "__main__":
             '--mode',
             type=str,
             default='linear',
-            choices=['linear', 'rnn', 'lstm'],
+            choices=['linear', 'rnn', 'lstm', 'gru'],
             help='Architecture du modèle (default: %(default)s)')
     parser.add_argument(
             '--bidirectional', action='store_true', default=False,

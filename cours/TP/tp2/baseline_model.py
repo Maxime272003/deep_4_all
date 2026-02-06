@@ -140,21 +140,28 @@ class DungeonOracle(nn.Module):
                 )
 
         # Approche Baseline Linéaire (Alternative au RNN)
-        # On aplatit tout : (Batch, Seq_Len * Embed_Dim)
-        self.solo_embeddings = nn.Sequential(
-                nn.Flatten(),
-                nn.Linear(max_length * embed_dim, hidden_dim),
-                nn.ReLU(),
-                nn.Dropout(dropout),
-                nn.Linear(hidden_dim, hidden_dim),
-                nn.ReLU(),
-                nn.Dropout(dropout),
-                nn.Linear(hidden_dim, 1)  # Sortie directe pour comparaison
-                )
+        if self.mode == "linear":
+            # On aplatit tout : (Batch, Seq_Len * Embed_Dim)
+            self.solo_embeddings = nn.Sequential(
+                    nn.Flatten(),
+                    nn.Linear(max_length * embed_dim, hidden_dim),
+                    nn.ReLU(),
+                    nn.Dropout(dropout),
+                    nn.Linear(hidden_dim, hidden_dim),
+                    nn.ReLU(),
+                    nn.Dropout(dropout),
+                    nn.Linear(hidden_dim, 1)  # Sortie directe pour comparaison
+                    )
+        else:
+            self.solo_embeddings = None
         if self.mode != "linear":
             # Couche récurrente
-            # PROBLEME: Par défaut c'est un RNN simple qui souffre du vanishing gradient
-            rnn_class = nn.LSTM if self.mode == "lstm" else nn.RNN
+            if self.mode == "lstm":
+                rnn_class = nn.LSTM
+            elif self.mode == "gru":
+                rnn_class = nn.GRU
+            else:
+                rnn_class = nn.RNN
 
             self.rnn = rnn_class(
                     input_size=embed_dim,
@@ -180,40 +187,49 @@ class DungeonOracle(nn.Module):
         Args:
             x: Tensor de shape (batch_size, seq_length) contenant les IDs d'événements
             lengths: Tensor de shape (batch_size,) contenant les longueurs réelles
-                     (optionnel, pour ignorer le padding)
-
+        
         Returns:
             Logits de shape (batch_size, 1)
         """
-        batch_size = x.size(0)
-
         # Étape 1: Embedding
-        # (batch, seq_len) → (batch, seq_len, embed_dim)
         embedded = self.embedding(x)
 
         if self.mode != "linear":
-            # Étape 2: Passage dans le RNN/LSTM
-            # output: (batch, seq_len, hidden_dim * num_directions)
-            # hidden: (num_layers * num_directions, batch, hidden_dim)
-            if self.mode == "lstm":
-                output, (hidden, cell) = self.rnn(embedded)
+            # Gestion des séquences packées (Optimisation CRUCIALE)
+            if lengths is not None:
+                # IMPORTANT: pack_padded_sequence nécessite des longueurs triées sur CPU
+                # Mais DataLoader ne garantit pas le tri par défaut
+                # Ici on suppose que le code d'entraînement gère ou que PyTorch est flexible (enforce_sorted=False)
+                packed_embedded = nn.utils.rnn.pack_padded_sequence(
+                    embedded, lengths.cpu(), batch_first=True, enforce_sorted=False
+                )
+                
+                # Passage dans le RNN
+                if self.mode == "lstm":
+                    packed_output, (hidden, cell) = self.rnn(packed_embedded)
+                else: # rnn or gru
+                    packed_output, hidden = self.rnn(packed_embedded)
+                
+                # Pas besoin de unpack si on utilise juste le dernier état caché
             else:
-                output, hidden = self.rnn(embedded)
+                # Mode sans packing (moins efficace car traite le padding)
+                if self.mode == "lstm":
+                    output, (hidden, cell) = self.rnn(embedded)
+                else:
+                    output, hidden = self.rnn(embedded)
 
             # Étape 3: Extraire le dernier état caché
-            # Pour un RNN standard, on prend la dernière sortie
             if self.bidirectional:
-                # Concaténer forward et backward
-                hidden_forward = hidden[-2]  # Dernière couche, direction forward
-                hidden_backward = hidden[-1]  # Dernière couche, direction backward
+                # Concaténer forward et backward (dernière couche)
+                # hidden shape: (num_layers * num_directions, batch, hidden_dim)
+                hidden_forward = hidden[-2]
+                hidden_backward = hidden[-1]
                 final_hidden = torch.cat([hidden_forward, hidden_backward], dim=1)
             else:
-                # Juste la dernière couche
                 final_hidden = hidden[-1]
 
             # Étape 4: Classification
             logits = self.classifier(final_hidden)
-
             return logits
         else:
             return self.solo_embeddings(embedded)
