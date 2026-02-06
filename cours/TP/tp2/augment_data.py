@@ -20,7 +20,6 @@ def augment_training_data(train_df, tm_ratio=0.3, seed=42):
     
     n_tm = int(len(train_df) * tm_ratio)
     
-    # Generer des exemples TM
     data = {
         'force': np.random.uniform(0, 100, n_tm),
         'intelligence': np.random.uniform(0, 100, n_tm),
@@ -32,8 +31,7 @@ def augment_training_data(train_df, tm_ratio=0.3, seed=42):
         'fatigue': np.random.uniform(0, 100, n_tm),
     }
     tm_df = pd.DataFrame(data)
-    
-    # Normaliser pour calcul
+
     df_n = tm_df.copy()
     df_n['force'] = tm_df['force'] / 100
     df_n['intelligence'] = tm_df['intelligence'] / 100
@@ -44,27 +42,23 @@ def augment_training_data(train_df, tm_ratio=0.3, seed=42):
     df_n['equipement'] = tm_df['equipement'] / 100
     df_n['fatigue'] = tm_df['fatigue'] / 100
     
-    # Formule Terres Maudites V2 (Force NEGATIVE, Intelligence dominante)
     score = (
-        0.40 * df_n['intelligence'] +   # Intelligence cruciale
-        0.25 * df_n['agilite'] +          # Agilite importante
-        0.20 * df_n['chance'] +           # Chance compte
+        0.40 * df_n['intelligence'] +   
+        0.25 * df_n['agilite'] +          
+        0.20 * df_n['chance'] +           
         0.10 * df_n['equipement'] +
-        -0.05 * df_n['force'] +           # Force NEGATIVE !
+        -0.05 * df_n['force'] +           
         0.05 * df_n['experience'] -
-        0.15 * df_n['fatigue'] -          # Fatigue plus penalisante
-        0.15 * df_n['niveau_quete']       # Difficulte plus penalisante
+        0.15 * df_n['fatigue'] -          
+        0.15 * df_n['niveau_quete']       
     )
     
-    # Piege de l'Arrogance - SEVERE
-    arrogance = tm_df['force'] > 65  # Seuil plus bas !
-    score[arrogance] -= 0.25         # Penalite plus forte !
+    arrogance = tm_df['force'] > 65  
+    score[arrogance] -= 0.25         
     
-    score += np.random.normal(0, 0.03, n_tm)  # Moins de bruit
+    score += np.random.normal(0, 0.03, n_tm)  
     tm_df['survie'] = (score > 0.25).astype(int)
     
-    # Combiner avec les donnees originales
-    # S'assurer que les colonnes sont dans le meme ordre
     tm_df = tm_df[train_df.columns]
     
     augmented_df = pd.concat([train_df, tm_df], ignore_index=True)

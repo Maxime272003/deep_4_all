@@ -81,7 +81,7 @@ def main():
     data_dir = Path(__file__).parent / "data"
     
     # Charger les donnees
-    train_df = pd.read_csv(data_dir / "train.csv")
+    train_df = pd.read_csv(data_dir / "train_augmented_100.csv")
     val_df = pd.read_csv(data_dir / "val.csv")
     tm_df = pd.read_csv(data_dir / "synthetic_terres_maudites.csv")
     
