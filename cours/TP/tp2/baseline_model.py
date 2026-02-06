@@ -177,6 +177,7 @@ class DungeonOracle(nn.Module):
             classifier_input_dim = hidden_dim * 2 if bidirectional else hidden_dim
 
             self.classifier = nn.Sequential(
+                    nn.Dropout(dropout),
                     nn.Linear(classifier_input_dim, 1)
                     )
 
