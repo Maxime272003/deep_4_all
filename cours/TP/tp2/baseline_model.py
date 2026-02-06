@@ -25,16 +25,39 @@ class GuildOracle(nn.Module):
     Architecture : MLP profond (trop profond !)
     """
 
-    def __init__(self, input_dim: int = 8, hidden_dim: int = 256, num_layers: int = 5):
+    def __init__(self, input_dim: int = 8, hidden_dim: int = 256, num_layers: int = 5, dropout: float = 0.3):
         """
         Args:
             input_dim: Nombre de features (8 stats)
             hidden_dim: Dimension des couches cachées
-            num_layers: Nombre de couches cachées
+            num_layers: Nombre de couches cachées (0 = modèle linéaire simple)
+            dropout: Taux de dropout pour la régularisation
         """
         super().__init__()
-        # TODO
-        self.network = nn.Sequential()
+        
+        # Construction du réseau MLP
+        layers = []
+        
+        if num_layers == 0:
+            # Modèle linéaire simple (Perceptron) : input -> output
+            layers.append(nn.Linear(input_dim, 1))
+        else:
+            # MLP avec couches cachées
+            # Première couche : input_dim -> hidden_dim
+            layers.append(nn.Linear(input_dim, hidden_dim))
+            layers.append(nn.ReLU())
+            layers.append(nn.Dropout(dropout))
+            
+            # Couches cachées intermédiaires : hidden_dim -> hidden_dim
+            for _ in range(num_layers - 1):
+                layers.append(nn.Linear(hidden_dim, hidden_dim))
+                layers.append(nn.ReLU())
+                layers.append(nn.Dropout(dropout))
+            
+            # Couche de sortie : hidden_dim -> 1
+            layers.append(nn.Linear(hidden_dim, 1))
+        
+        self.network = nn.Sequential(*layers)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """

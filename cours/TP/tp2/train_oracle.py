@@ -131,7 +131,7 @@ def main(args):
     # Charger les données
     print("\nChargement des données...")
     train_dataset = AdventurerDataset(
-            str(data_dir / "train.csv"),
+            args.train_file if args.train_file else str(data_dir / "train.csv"),
             normalize=args.normalize
             )
     val_dataset = AdventurerDataset(
@@ -158,7 +158,9 @@ def main(args):
     print("\nCréation du modèle...")
     model = GuildOracle(
             input_dim=train_dataset.features.shape[1],
-            hidden_dim=args.hidden_dim
+            hidden_dim=args.hidden_dim,
+            num_layers=args.num_layers,
+            dropout=args.dropout
             )
     model = model.to(device)
     print(f"Paramètres: {count_parameters(model):,}")
@@ -294,11 +296,23 @@ if __name__ == "__main__":
             '--shuffle', action='store_true', default=False,
             help='Mélanger les données'
             )
+    parser.add_argument(
+            '--train_file', type=str, default=None,
+            help='Fichier CSV de training (defaut: data/train.csv)'
+            )
 
     # Modèle
     parser.add_argument(
             '--hidden_dim', type=int, default=256,
             help='Dimension des couches cachées'
+            )
+    parser.add_argument(
+            '--num_layers', type=int, default=5,
+            help="Nombre de couches cachées (0 = linéaire)"
+            )
+    parser.add_argument(
+            '--dropout', type=float, default=0.3,
+            help="Taux de dropout"
             )
 
     # Entraînement
