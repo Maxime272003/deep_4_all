@@ -229,6 +229,13 @@ def main(args):
 
     # Charger les datasets
     print("Chargement des données...")
+    
+    # Check if augmented data exists, otherwise use standard
+    augmented_path = data_dir / "train_dungeon_augmented.csv"
+    if augmented_path.exists():
+        print(f"UTILISATION DATASET AUGMENTÉ: {augmented_path}")
+        train_path = augmented_path
+    
     train_dataset = DungeonLogDataset(
             str(train_path),
             str(vocab_path)
