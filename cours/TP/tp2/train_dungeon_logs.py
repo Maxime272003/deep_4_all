@@ -230,12 +230,30 @@ def main(args):
     # Charger les datasets
     print("Chargement des données...")
     
-    # Check if augmented data exists, otherwise use standard
+    # Strategy: Combine Original + Augmented
+    train_path = data_dir / "train_dungeon.csv"
     augmented_path = data_dir / "train_dungeon_augmented.csv"
-    if augmented_path.exists():
-        print(f"UTILISATION DATASET AUGMENTÉ: {augmented_path}")
-        train_path = augmented_path
     
+    if augmented_path.exists():
+        print(f"FUSION DES DATASETS : Original + Augmenté")
+        df_orig = pd.read_csv(train_path)
+        df_aug = pd.read_csv(augmented_path)
+        
+        # Concatenate
+        df_combined = pd.concat([df_orig, df_aug], ignore_index=True)
+        
+        # Shuffle
+        df_combined = df_combined.sample(frac=1, random_state=42).reset_index(drop=True)
+        
+        # Save temporary combined file
+        combined_path = data_dir / "train_dungeon_combined.csv"
+        df_combined.to_csv(combined_path, index=False)
+        
+        train_path = combined_path
+        print(f"Training on combined dataset: {len(df_combined)} samples")
+    else:
+        print("Using original dataset only (Augmented not found)")
+
     train_dataset = DungeonLogDataset(
             str(train_path),
             str(vocab_path)
