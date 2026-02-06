@@ -174,7 +174,11 @@ class DungeonOracle(nn.Module):
 
             # Couche de classification
             # Si bidirectionnel, on a 2x hidden_dim
-            classifier_input_dim = hidden_dim * 2 if bidirectional else hidden_dim
+            rnn_output_dim = hidden_dim * 2 if bidirectional else hidden_dim
+            
+            # ATTENTION MECHANISM: On concatène le contexte (Attention) avec l'état final
+            # Donc l'entrée du classifieur double
+            classifier_input_dim = rnn_output_dim * 2
 
             self.classifier = nn.Sequential(
                     nn.Dropout(dropout),
@@ -211,9 +215,12 @@ class DungeonOracle(nn.Module):
                 else: # rnn or gru
                     packed_output, hidden = self.rnn(packed_embedded)
                 
-                # Pas besoin de unpack si on utilise juste le dernier état caché
+                # Unpack pour l'attention
+                # output: (batch, seq_len, hidden_dim * num_directions)
+                output, _ = nn.utils.rnn.pad_packed_sequence(packed_output, batch_first=True)
+
             else:
-                # Mode sans packing (moins efficace car traite le padding)
+                # Mode sans packing
                 if self.mode == "lstm":
                     output, (hidden, cell) = self.rnn(embedded)
                 else:
@@ -221,16 +228,38 @@ class DungeonOracle(nn.Module):
 
             # Étape 3: Extraire le dernier état caché
             if self.bidirectional:
-                # Concaténer forward et backward (dernière couche)
-                # hidden shape: (num_layers * num_directions, batch, hidden_dim)
+                # Concaténer forward et backward
                 hidden_forward = hidden[-2]
                 hidden_backward = hidden[-1]
                 final_hidden = torch.cat([hidden_forward, hidden_backward], dim=1)
             else:
                 final_hidden = hidden[-1]
 
+            # --- ATTENTION MECHANISM (Dot-Product) ---
+            # output: (batch, seq_len, rnn_output_dim)
+            # final_hidden: (batch, rnn_output_dim)
+            
+            # 1. Calcul des scores (dot product)
+            # (batch, seq_len, dim) * (batch, dim, 1) -> (batch, seq_len, 1)
+            attention_scores = torch.bmm(output, final_hidden.unsqueeze(2))
+            
+            # 2. Masquage du padding (si lengths fourni)
+            if lengths is not None:
+                mask = torch.arange(output.size(1), device=output.device)[None, :] < lengths[:, None]
+                attention_scores.masked_fill_(~mask.unsqueeze(2), -float('inf'))
+            
+            # 3. Poids d'attention (Softmax)
+            attention_weights = torch.softmax(attention_scores, dim=1)
+            
+            # 4. Contexte (Weighted sum)
+            # (batch, dim, seq_len) * (batch, seq_len, 1) -> (batch, dim, 1)
+            context_vector = torch.bmm(output.transpose(1, 2), attention_weights).squeeze(2)
+            
+            # 5. Concatenation
+            combined = torch.cat((final_hidden, context_vector), dim=1)
+
             # Étape 4: Classification
-            logits = self.classifier(final_hidden)
+            logits = self.classifier(combined)
             return logits
         else:
             return self.solo_embeddings(embedded)
