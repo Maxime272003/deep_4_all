@@ -55,6 +55,6 @@ LEARNING_RATE = 2e-4
 NUM_EPOCHS = 3
 
 # === DATASET ===
-NUM_SAMPLES_STAGE1 = 10  # Nombre d'exemples pour Stage 1 (réduit pour tests)
-NUM_SAMPLES_STAGE2 = 10  # Nombre d'exemples pour Stage 2 (réduit pour tests)
+NUM_SAMPLES_STAGE1 = 500  # Nombre d'exemples pour Stage 1 (réduit pour tests)
+NUM_SAMPLES_STAGE2 = 500  # Nombre d'exemples pour Stage 2 (réduit pour tests)
 API_DELAY_SECONDS = 0.5  # Délai entre les requêtes API (rate limiting)

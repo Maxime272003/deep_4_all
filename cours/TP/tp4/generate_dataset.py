@@ -35,6 +35,7 @@ class GeneratedExample:
     response: str
     answer_key: str
     temperature: float
+    logprobs: Optional[List[Dict]] = None
     question_id: Optional[str] = None
 
 
@@ -94,7 +95,7 @@ Please analyze this question step by step and select the correct answer."""
         max_retries: int = 3
     ) -> Optional[Dict[str, Any]]:
         """
-        Génère une réponse du Teacher
+        Génère une réponse du Teacher avec logprobs
         
         Args:
             prompt: Le prompt utilisateur
@@ -102,12 +103,15 @@ Please analyze this question step by step and select the correct answer."""
             max_retries: Nombre de tentatives en cas d'erreur
             
         Returns:
-            Dict avec response et temperature, ou None si échec
+            Dict avec response, logprobs et temperature, ou None si échec
         """
         payload = {
             "model": TEACHER_MODEL,
             "temperature": temperature,
+            "logprobs": True,
+            "top_logprobs": 1,
             "messages": [
+                {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": prompt}
             ]
         }
@@ -125,8 +129,19 @@ Please analyze this question step by step and select the correct answer."""
                 data = response.json()
                 content = data["choices"][0]["message"]["content"]
                 
+                # Extraire les logprobs si disponibles
+                logprobs = None
+                if "logprobs" in data["choices"][0] and data["choices"][0]["logprobs"]:
+                    logprobs_data = data["choices"][0]["logprobs"].get("content", [])
+                    if logprobs_data:
+                        logprobs = [
+                            {"token": lp["token"], "logprob": lp["logprob"]}
+                            for lp in logprobs_data
+                        ]
+                
                 return {
                     "response": content,
+                    "logprobs": logprobs,
                     "temperature": temperature
                 }
                 
@@ -206,6 +221,7 @@ Please analyze this question step by step and select the correct answer."""
                     response=result["response"],
                     answer_key=example["answerKey"],
                     temperature=temperature,
+                    logprobs=result.get("logprobs"),
                     question_id=example.get("id", f"q_{start_idx + i}")
                 )
                 generated_data.append(gen_example)
