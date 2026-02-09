@@ -5,11 +5,11 @@ Génère les réponses de raisonnement pour CommonsenseQA
 
 import json
 import time
+import requests
 from datetime import datetime
 from typing import Optional, Dict, List, Any
 from dataclasses import dataclass, asdict
 from tqdm import tqdm
-from openai import OpenAI
 from datasets import load_dataset
 
 from config import (
@@ -35,7 +35,6 @@ class GeneratedExample:
     response: str
     answer_key: str
     temperature: float
-    logprobs: Optional[List[Dict]] = None
     question_id: Optional[str] = None
 
 
@@ -43,10 +42,12 @@ class DatasetGenerator:
     """Générateur de dataset via API Teacher"""
     
     def __init__(self):
-        self.client = OpenAI(
-            base_url=INFOMANIAK_API_URL,
-            api_key=INFOMANIAK_API_KEY
-        )
+        self.api_url = INFOMANIAK_API_URL
+        self.api_key = INFOMANIAK_API_KEY
+        self.headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        }
         self.log_file = LOGS_DIR / f"generation_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
         
     def log(self, message: str):
@@ -93,7 +94,7 @@ Please analyze this question step by step and select the correct answer."""
         max_retries: int = 3
     ) -> Optional[Dict[str, Any]]:
         """
-        Génère une réponse du Teacher avec logprobs
+        Génère une réponse du Teacher
         
         Args:
             prompt: Le prompt utilisateur
@@ -101,36 +102,31 @@ Please analyze this question step by step and select the correct answer."""
             max_retries: Nombre de tentatives en cas d'erreur
             
         Returns:
-            Dict avec response, logprobs et temperature, ou None si échec
+            Dict avec response et temperature, ou None si échec
         """
+        payload = {
+            "model": TEACHER_MODEL,
+            "temperature": temperature,
+            "messages": [
+                {"role": "user", "content": prompt}
+            ]
+        }
+        
         for attempt in range(max_retries):
             try:
-                response = self.client.chat.completions.create(
-                    model=TEACHER_MODEL,
-                    messages=[
-                        {"role": "system", "content": SYSTEM_PROMPT},
-                        {"role": "user", "content": prompt}
-                    ],
-                    max_tokens=MAX_TOKENS,
-                    temperature=temperature,
-                    logprobs=True,
-                    top_logprobs=1
+                response = requests.post(
+                    self.api_url,
+                    headers=self.headers,
+                    json=payload,
+                    timeout=60
                 )
+                response.raise_for_status()
                 
-                content = response.choices[0].message.content
-                logprobs_data = response.choices[0].logprobs
-                
-                # Extraire les logprobs si disponibles
-                logprobs = None
-                if logprobs_data and logprobs_data.content:
-                    logprobs = [
-                        {"token": lp.token, "logprob": lp.logprob}
-                        for lp in logprobs_data.content
-                    ]
+                data = response.json()
+                content = data["choices"][0]["message"]["content"]
                 
                 return {
                     "response": content,
-                    "logprobs": logprobs,
                     "temperature": temperature
                 }
                 
@@ -210,7 +206,6 @@ Please analyze this question step by step and select the correct answer."""
                     response=result["response"],
                     answer_key=example["answerKey"],
                     temperature=temperature,
-                    logprobs=result["logprobs"],
                     question_id=example.get("id", f"q_{start_idx + i}")
                 )
                 generated_data.append(gen_example)

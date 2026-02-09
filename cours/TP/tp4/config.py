@@ -21,9 +21,9 @@ for dir_path in [DATA_DIR, CHECKPOINTS_DIR, CONFIGS_DIR, LOGS_DIR]:
     dir_path.mkdir(exist_ok=True)
 
 # === API INFOMANIAK (TEACHER) ===
-INFOMANIAK_API_URL = os.getenv("INFOMANIAK_API_URL", "https://api.infomaniak.com/2/ai/48/openai/v1")
+INFOMANIAK_API_URL = os.getenv("INFOMANIAK_API_URL", "https://api.infomaniak.com/2/ai/48/openai/v1/chat/completions")
 INFOMANIAK_API_KEY = os.getenv("INFOMANIAK_API_KEY")
-TEACHER_MODEL = os.getenv("TEACHER_MODEL", "qwen3")
+TEACHER_MODEL = os.getenv("TEACHER_MODEL", "openai/gpt-oss-120b")
 
 # === MODÈLE ÉTUDIANT ===
 STUDENT_MODEL_ID = "unsloth/Qwen3-4B-Instruct-2507-unsloth-bnb-4bit"
@@ -55,6 +55,6 @@ LEARNING_RATE = 2e-4
 NUM_EPOCHS = 3
 
 # === DATASET ===
-NUM_SAMPLES_STAGE1 = 200  # Nombre d'exemples pour Stage 1
-NUM_SAMPLES_STAGE2 = 200  # Nombre d'exemples pour Stage 2
-API_DELAY_SECONDS = 1  # Délai entre les requêtes API (rate limiting)
+NUM_SAMPLES_STAGE1 = 10  # Nombre d'exemples pour Stage 1 (réduit pour tests)
+NUM_SAMPLES_STAGE2 = 10  # Nombre d'exemples pour Stage 2 (réduit pour tests)
+API_DELAY_SECONDS = 0.5  # Délai entre les requêtes API (rate limiting)
