@@ -1,0 +1,14 @@
+# Dépendances TP4 DASD
+python-dotenv
+llama-factory
+transformers>=4.40.0
+datasets
+openai
+torch
+bitsandbytes
+accelerate
+nltk
+peft
+matplotlib
+tqdm
+pyyaml
