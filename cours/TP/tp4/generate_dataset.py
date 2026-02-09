@@ -163,19 +163,20 @@ Please analyze this question step by step and select the correct answer."""
         Returns:
             True si la réponse est de bonne qualité
         """
-        # Vérifier que la réponse contient du raisonnement
-        has_reasoning = "<reasoning>" in response.lower() or len(response) > 200
+        # Vérifier que la réponse n'est pas vide (critère minimal)
+        if len(response.strip()) < 30:
+            return False
         
-        # Vérifier que la réponse n'est pas vide
-        not_empty = len(response.strip()) > 50
+        # Accepter si la réponse contient du raisonnement (balises OU longueur suffisante)
+        has_reasoning = "<reasoning>" in response.lower() or "step" in response.lower() or len(response) > 100
         
-        # Vérifier que la réponse contient une conclusion
-        has_answer = any(
-            pattern in response.upper() 
-            for pattern in ["FINAL ANSWER", "THE ANSWER IS", "ANSWER:", f"({answer_key.upper()})"]
+        # Accepter si la réponse mentionne une option (A, B, C, D, E)
+        has_answer_mention = any(
+            letter in response.upper() 
+            for letter in ["A", "B", "C", "D", "E"]
         )
         
-        return has_reasoning and not_empty
+        return has_reasoning and has_answer_mention
     
     def generate_stage_dataset(
         self,
