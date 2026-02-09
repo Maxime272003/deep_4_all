@@ -6,6 +6,7 @@ Génère les réponses de raisonnement pour CommonsenseQA
 import json
 import time
 import requests
+import numpy as np
 from datetime import datetime
 from typing import Optional, Dict, List, Any
 from dataclasses import dataclass, asdict
@@ -37,6 +38,15 @@ class GeneratedExample:
     temperature: float
     logprobs: Optional[List[Dict]] = None
     question_id: Optional[str] = None
+    confidence: Optional[float] = None  # Confiance moyenne (0-100%)
+    
+    def __post_init__(self):
+        """Calcule la confiance à partir des logprobs"""
+        if self.logprobs and self.confidence is None:
+            # Convertir log-probabilités en probabilités (exp) puis moyenne
+            import numpy as np
+            probs = [np.exp(lp["logprob"]) for lp in self.logprobs]
+            self.confidence = float(np.mean(probs) * 100)  # En pourcentage
 
 
 class DatasetGenerator:
@@ -234,6 +244,15 @@ Please analyze this question step by step and select the correct answer."""
             time.sleep(API_DELAY_SECONDS)
         
         self.log(f"Terminé: {len(generated_data)} succès, {failed_count} échecs")
+        
+        # Afficher les statistiques de confiance
+        if generated_data:
+            confidences = [ex.confidence for ex in generated_data if ex.confidence is not None]
+            if confidences:
+                import numpy as np
+                self.log(f"Confiance moyenne: {np.mean(confidences):.2f}%")
+                self.log(f"Confiance min/max: {np.min(confidences):.2f}% / {np.max(confidences):.2f}%")
+        
         return generated_data
     
     def save_raw_dataset(self, data: List[GeneratedExample], filename: str):
