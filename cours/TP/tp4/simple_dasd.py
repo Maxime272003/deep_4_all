@@ -39,7 +39,7 @@ class DASPipelineQwen:
                 device_map="cpu",  # Force CPU
                 trust_remote_code=True,
                 torch_dtype=torch.float32 
-            )
+            )   
             
         self.model.eval()
 
