@@ -28,10 +28,11 @@ def main():
         
     elif args.phase == "configs":
         print("=== PHASE 5: Création des Configs ===")
-        from create_configs import create_dataset_info, create_stage1_config, create_stage2_config
+        from create_configs import create_dataset_info, create_stage1_config, create_stage2_config, create_inference_config
         create_dataset_info()
         create_stage1_config()
         create_stage2_config()
+        create_inference_config()
         
     elif args.phase == "train":
         print("=== PHASE 6: Entraînement ===")

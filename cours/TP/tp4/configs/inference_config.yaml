@@ -1,0 +1,7 @@
+adapter_name_or_path: C:\dev\deep_4_all\cours\TP\tp4\checkpoints\csqa_stage1
+do_sample: false
+finetuning_type: lora
+max_new_tokens: 1024
+model_name_or_path: unsloth/Qwen3-4B-Instruct-2507-unsloth-bnb-4bit
+temperature: 0.3
+template: qwen
