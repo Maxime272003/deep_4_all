@@ -73,6 +73,24 @@ def create_stage2_config():
     print(f"Créé: {CONFIGS_DIR / 'stage2_config.yaml'}")
 
 
+def create_inference_config():
+    """Config YAML pour l'inférence (chat) avec le modèle final"""
+    config = {
+        "model_name_or_path": STUDENT_MODEL_ID,
+        "adapter_name_or_path": str(CHECKPOINTS_DIR / "csqa_stage2"),
+        "template": "qwen",
+        "finetuning_type": "lora",
+        "do_sample": False,
+        "temperature": 0.3,
+        "max_new_tokens": 1024
+    }
+    
+    output_path = CONFIGS_DIR / "inference_config.yaml"
+    with open(output_path, "w", encoding="utf-8") as f:
+        yaml.dump(config, f, default_flow_style=False)
+    print(f"Créé: {output_path}")
+
+
 if __name__ == "__main__":
     print("=== CRÉATION DES CONFIGURATIONS ===")
     create_dataset_info()

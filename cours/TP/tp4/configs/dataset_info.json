@@ -1,0 +1,16 @@
+{
+  "csqa_stage1": {
+    "file_name": "C:\\dev\\deep_4_all\\cours\\TP\\tp4\\data\\csqa_stage1_filtered.json",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "conversations"
+    }
+  },
+  "csqa_stage2": {
+    "file_name": "C:\\dev\\deep_4_all\\cours\\TP\\tp4\\data\\csqa_stage2_filtered.json",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "conversations"
+    }
+  }
+}

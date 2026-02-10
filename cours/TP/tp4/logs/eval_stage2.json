@@ -1,0 +1,407 @@
+{
+  "accuracy": 0.82,
+  "total_samples": 50,
+  "correct": 41,
+  "results": [
+    {
+      "question_id": "1afa02df02c908a558b4036e80242fac",
+      "question": "A revolving door is convenient for two direction travel, but it also serves as a security measure at a what?",
+      "expected": "A",
+      "predicted": "A",
+      "correct": true,
+      "response": "The clue points to a place where a revolving door is used both for convenience and as a security barrier. Revolving doors are commonly installed at bank entrances to control access and enhance security.  \n\n**Final Answer: A**"
+    },
+    {
+      "question_id": "a7ab086045575bb497933726e4e6ad28",
+      "question": "What do people aim to do at work?",
+      "expected": "A",
+      "predicted": "A",
+      "correct": true,
+      "response": "<reasoning>\nThe question asks what people aim to do at work. The primary purpose of working is to finish the tasks assigned, i.e., “complete the job.” The other options (learning from each other, killing animals, wearing hats, talking to each other) are not the main objective of work. Therefore, the correct choice is option A.\n</reasoning>\n\nFinal Answer: A"
+    },
+    {
+      "question_id": "b8c0a4703079cf661d7261a60a1bcbff",
+      "question": "Where would you find magazines along side many other printed works?",
+      "expected": "B",
+      "predicted": "B",
+      "correct": true,
+      "response": "<reasoning>\nThe question asks for a place where magazines are found together with many other printed works (books, newspapers, etc.).  \n- A **doctor** is a person, not a location.  \n- A **bookstore** specializes in selling books and magazines alongside many other printed materials.  \n- A **market** primarily sells food and goods, not printed works.  \n- A **train station** may have some printed information but not a collection of magazines and books.  \n- A **mortuary** is for dead bodies and does not contain printed works.\n\nTherefore, the most appropriate location is a bookstore.\n</reasoning>\n\nFinal Answer: B"
+    },
+    {
+      "question_id": "e68fb2448fd74e402aae9982aa76e527",
+      "question": "Where are  you likely to find a hamburger?",
+      "expected": "A",
+      "predicted": "A",
+      "correct": true,
+      "response": "<reasoning>\nA hamburger is a classic dish commonly served at fast food establishments such as McDonald’s, Burger King, or similar chains. The other options are either unrelated (pizza, ground up dead cows, cow carcus) or refer to where a person might eat it (mouth) rather than where it is likely to be found as a food item. Therefore, the most appropriate answer is a fast food restaurant.\n</reasoning>\n\nFinal Answer: A"
+    },
+    {
+      "question_id": "2435de612dd69f2012b9e40d6af4ce38",
+      "question": "James was looking for a good place to buy farmland.  Where might he look?",
+      "expected": "A",
+      "predicted": "D",
+      "correct": false,
+      "response": "<reasoning>\nThe question asks where James might look to buy farmland. Farmland is typically located in rural, agricultural regions. Among the options:\n\n- **Midwest** – a U.S. region that includes many farming areas, but it is a broader geographic description.\n- **Countryside** – generally refers to rural, non-urban areas where farmland is found.\n- **Estate** – usually denotes a large private residence or country house, not specifically farmland.\n- **Farming areas** – directly describes places where farmland is located.\n- **Illinois** – a specific state that does have farmland, but it is too narrow and not the most general answer.\n\nThe most appropriate, general location for farmland is “farming areas.” Therefore, the best answer is **D**.\n</reasoning>\n\nFinal Answer: D"
+    },
+    {
+      "question_id": "a4892551cb4beb279653ae52d0de4c89",
+      "question": "What island country is ferret popular?",
+      "expected": "C",
+      "predicted": "C",
+      "correct": true,
+      "response": "The clue points to the island country where the animal “ferret” is popular. Among the options, only **Great Britain** is an island country, and ferrets are indeed common there.\n\n**Final Answer: C**"
+    },
+    {
+      "question_id": "118a9093a30695622363455e4d911866",
+      "question": "In what Spanish speaking North American country can you get a great cup of coffee?",
+      "expected": "B",
+      "predicted": "B",
+      "correct": true,
+      "response": "The question asks for a Spanish-speaking North American country where you can get a great cup of coffee. Among the options, only **Mexico** fits that description.  \n\n**Final Answer: B**"
+    },
+    {
+      "question_id": "05ea49b82e8ec519e82d6633936ab8bf",
+      "question": "What do animals do when an enemy is approaching?",
+      "expected": "D",
+      "predicted": "D",
+      "correct": true,
+      "response": "<reasoning>\nThe question asks what animals do when an enemy is approaching. The typical response to a threat is to become alert and detect the danger, which involves using hearing. Among the options, “listen to each other” (i.e., use hearing) best describes the behavior that would occur in response to an approaching enemy. The other options (pleasure, procreate, pass water, sing) are unrelated to the immediate reaction to a threat.\n</reasoning>\n\nFinal Answer: D"
+    },
+    {
+      "question_id": "c0c07ce781653b2a2c01871ba2bcba93",
+      "question": "Reading newspaper one of many ways to practice your what?",
+      "expected": "A",
+      "predicted": "A",
+      "correct": true,
+      "response": "<reasoning>\nThe sentence is asking what skill you develop by reading a newspaper. Reading is an activity that improves your ability to read and understand written language, i.e., your **literacy**. The other options (knowing how to read, money, buying, money bank) do not fit the grammatical and semantic context of the sentence.\n</reasoning>\n\nFinal Answer: A"
+    },
+    {
+      "question_id": "1d24f406b6828492040b405d3f35119c",
+      "question": "What do people typically do while playing guitar?",
+      "expected": "C",
+      "predicted": "B",
+      "correct": false,
+      "response": "<reasoning>\nThe question asks what people typically do while playing guitar. The most direct and common activity associated with playing a guitar is producing sound, i.e., hearing sounds. While some also sing or make music, the most universally expected action is simply to hear the sounds the guitar produces. Therefore, the best answer is “hear sounds.”\n</reasoning>\n\nFinal Answer: B"
+    },
+    {
+      "question_id": "57f92025d860e32c4e780c0d51c1c20c",
+      "question": "What would vinyl be an odd thing to replace?",
+      "expected": "E",
+      "predicted": "B",
+      "correct": false,
+      "response": "The clue points to something that is normally made of vinyl, and asks what would be odd to replace with vinyl. Vinyl is commonly used for record albums, so replacing something else with vinyl would be unusual. The other options (pants, cheese, wallpaper, record store) are not typically replaced with vinyl.\n\n**Final Answer: B**"
+    },
+    {
+      "question_id": "81eb4b2ee66edd8bc91ee944697c4e9f",
+      "question": "If you want harmony, what is something you should try to do with the world?",
+      "expected": "D",
+      "predicted": "D",
+      "correct": true,
+      "response": "The phrase “If you want harmony, you should try to … the world” calls for an action that promotes peace and unity. The appropriate verb is “make peace,” which directly leads to harmony.\n\n**Final Answer: D**"
+    },
+    {
+      "question_id": "d807e7ae60976324920c8d29eb42dad6",
+      "question": "Where does a heifer's master live?",
+      "expected": "A",
+      "predicted": "A",
+      "correct": true,
+      "response": "The phrase “heifer’s master” is a playful way of referring to the person who owns or manages the heifer, i.e., the farmer. The farmer’s residence is typically a farm house.  \n\n**Final Answer: A**"
+    },
+    {
+      "question_id": "7ea9f721ffc662918bb0c0937a487f04",
+      "question": "Aside from water and nourishment what does your dog need?",
+      "expected": "D",
+      "predicted": "E",
+      "correct": false,
+      "response": "<reasoning>\nThe question asks what else a dog needs besides water and nourishment. Among the options, the only essential requirement that is commonly listed alongside water and food for a dog’s well-being is regular exercise or physical activity (i.e., being walked). The other options (bone, charm, petted, lots of attention) are not fundamental needs. Therefore, the best answer is “walked.”\n</reasoning>\n\nFinal Answer: E"
+    },
+    {
+      "question_id": "fc1d33a2301a30214523c12573f81aba",
+      "question": "Janet was watching the film because she liked what?",
+      "expected": "C",
+      "predicted": "C",
+      "correct": true,
+      "response": "<reasoning>\nThe question asks what Janet liked that made her watch the film. The most natural and common reason for watching a film is that it provides entertainment. The other options (erectio, laughter, fear, bordem) are either nonsensical or less directly linked to the general motivation for watching a movie. Therefore, the best answer is “being entertained.”\n</reasoning>\n\nFinal Answer: C"
+    },
+    {
+      "question_id": "3b8e1d236f5169b6c833a994d6d9c39a",
+      "question": "What are you waiting alongside with when you're in a reception area?",
+      "expected": "D",
+      "predicted": "D",
+      "correct": true,
+      "response": "The phrase “waiting alongside with” suggests you are waiting together with others in the reception area. The appropriate answer is **people**.\n\n**Final Answer: D**"
+    },
+    {
+      "question_id": "c5c4166f2ed3c2b3517b79e6848e9ae2",
+      "question": "When drinking booze what can you do to stay busy?",
+      "expected": "D",
+      "predicted": "D",
+      "correct": true,
+      "response": "The question asks what you can do while drinking alcohol to keep yourself occupied. The only option that actually describes an activity you could do while drinking booze is “examine thing.” The other choices are unrelated or inappropriate.\n\n**Final Answer: D**"
+    },
+    {
+      "question_id": "6dc5b2884737e66543ce65f8dc40c992",
+      "question": "A fencing thrust with a sharp sword towards a person would result in what?",
+      "expected": "E",
+      "predicted": "E",
+      "correct": true,
+      "response": "<reasoning>\nThe question describes a fencing technique: a thrust with a sharp sword aimed at a person. The primary effect of such a thrust is to penetrate the target, causing a wound. While it could cause cuts, the most specific and direct result described in the options is a **puncture wound**, which is the type of wound created when a pointed object pierces the skin. The other options (injury, small cuts, fever, competition) are either too general, incorrect, or unrelated. Therefore, the best answer is “puncture wound.”\n</reasoning>\n\nFinal Answer: E"
+    },
+    {
+      "question_id": "8af63d58cc35061dec38e5448c325988",
+      "question": "Unlike a spider and his many sight seers, people only have what?",
+      "expected": "E",
+      "predicted": "E",
+      "correct": true,
+      "response": "The clue contrasts the many eyes (and thus many sight‑seers) of a spider with the limited number of eyes that people have. Therefore, people only have **two eyes**.\n\n**Final Answer: E**"
+    },
+    {
+      "question_id": "768fb09deab56046e1565b6a2556ad5c",
+      "question": "Where do adults use glue sticks?",
+      "expected": "D",
+      "predicted": "D",
+      "correct": true,
+      "response": "<reasoning>\nThe question asks for a place where adults use glue sticks. Glue sticks are commonly used for office tasks such as binding documents, repairing papers, or attaching items while working. While glue sticks can also be found in a classroom, the typical user of glue sticks in an adult context is someone in an office setting. Therefore, the most appropriate answer is “office.”\n</reasoning>\n\nFinal Answer: D"
+    },
+    {
+      "question_id": "cd639cf3ff82f825ace7dd2b087562bd",
+      "question": "What could go on top of wood?",
+      "expected": "D",
+      "predicted": "D",
+      "correct": true,
+      "response": "<reasoning>\nThe question asks for something that could be placed “on top of wood.”  \n- A lumberyard, synagogue, and hardware store are buildings; they cannot sit on wood.  \n- A floor is itself a surface that is installed on a wooden subfloor, but it is not something that goes *on top* of wood in the usual sense.  \n- Carpet is a common item that is laid directly over wooden surfaces (floors, tables, etc.).  \n\nTherefore, the most appropriate answer is **carpet**.\n</reasoning>\n\nFinal Answer: D"
+    },
+    {
+      "question_id": "8d79cc5e4eea11f50fab18fdea20fd4f",
+      "question": "The artist was sitting quietly pondering, then suddenly he began to paint when what struck him?",
+      "expected": "C",
+      "predicted": "C",
+      "correct": true,
+      "response": "The sentence describes a moment of sudden creative action that follows quiet reflection. The most natural trigger for an artist to start painting is a sudden flash of **inspiration**.  \n\n**Final Answer: C**"
+    },
+    {
+      "question_id": "e5ad2184e37ae88b2bf46bf6bc0ed2f4",
+      "question": "Though the thin film seemed fragile, for it's intended purpose it was actually nearly what?",
+      "expected": "D",
+      "predicted": "B",
+      "correct": false,
+      "response": "The sentence contrasts the appearance of the thin film with its actual strength for its intended use. The appropriate word is **durable**, meaning it can withstand normal use despite looking fragile.\n\n**Final Answer: B**"
+    },
+    {
+      "question_id": "b8b287b6277fccd4b7c9c72577177328",
+      "question": "Where could you find a toilet that only friends can use?",
+      "expected": "D",
+      "predicted": "C",
+      "correct": false,
+      "response": "The clue points to a place where a toilet is restricted to friends—i.e., a changing room or locker room, which is common in a **stadium** (or gym).  \n\n**Final Answer: C**"
+    },
+    {
+      "question_id": "f646f3e064f06423fc25b98500796cf0",
+      "question": "What is someone who isn't clever, bright, or competent called?",
+      "expected": "E",
+      "predicted": "C",
+      "correct": false,
+      "response": "<reasoning>\nThe question asks for a word that describes a person who lacks cleverness, intelligence, or competence.  \n- “Clumsy” refers to being awkward with physical movements, not intellectual ability.  \n- “Ineffectual” means unable to produce results, which is related but not the direct opposite of being bright.  \n- “Dull” directly means lacking intelligence or cleverness, fitting the description.  \n- “Stupid” also means lacking intelligence, but it is a more informal and often pejorative term, whereas the question seems to want a more neutral synonym for “not clever.”  \n\nThus the best fit is **dull**.\n</reasoning>\n\nFinal Answer: C"
+    },
+    {
+      "question_id": "b0f7d7978ac41c465108a92660d70e84",
+      "question": "When wildlife reproduce we often refer to what comes out as what?",
+      "expected": "D",
+      "predicted": "D",
+      "correct": true,
+      "response": "The phrase “what comes out” when wildlife reproduce is commonly described as **offspring**.  \n\n**Final Answer: D**"
+    },
+    {
+      "question_id": "54075de8b8b89ecef2e4eb4eaee2713d",
+      "question": "The weasel was becoming a problem, it kept getting into the chicken eggs kept in the what?",
+      "expected": "B",
+      "predicted": "B",
+      "correct": true,
+      "response": "The most logical place to keep chicken eggs where a weasel could get into them is a barn.  \n\n**Final Answer: B**"
+    },
+    {
+      "question_id": "65435b996ce9d1685bebb74b49c1ba7f",
+      "question": "Blue read material outside of his comfort zone because he wanted to gain what?",
+      "expected": "A",
+      "predicted": "A",
+      "correct": true,
+      "response": "The phrase “outside of his comfort zone” suggests Blue was reading something challenging in order to see things from a different point of view. The purpose of that is to gain a **new perspective**.\n\n**Final Answer: A**"
+    },
+    {
+      "question_id": "9889e5389917d812c09d6e5d382d333d",
+      "question": "After he got hired he hoped for success at his what?",
+      "expected": "B",
+      "predicted": "B",
+      "correct": true,
+      "response": "The sentence needs a noun that fits after “his …” and makes sense with “hoped for success at his …”.  \n- “his vocation” is awkward.  \n- “his Michigan” is nonsense.  \n- “his working hard” is ungrammatical.  \n- “his manual” is not appropriate.  \n\nThe natural phrase is “his new job.”  \n\n**Final Answer: B**"
+    },
+    {
+      "question_id": "a651ffa44ac5febf0aede6748899b981",
+      "question": "Committing perjury is a serious what?",
+      "expected": "B",
+      "predicted": "B",
+      "correct": true,
+      "response": "<reasoning>\nThe phrase “Committing perjury is a serious …” is looking for a noun that describes the nature of perjury. Perjury is defined as the act of lying under oath, and it is legally considered a serious offense. Among the options:\n\n- **Indictment** – a legal accusation, not the category of the act itself.  \n- **Crime** – a wrongful act punishable by law; perjury is indeed a criminal offense.  \n- **Violence** – perjury does not involve physical violence.  \n- **Lie** – while perjury *is* a lie, the question asks for a “serious …” implying a broader legal classification, not just a simple lie.  \n- **Go to jail** – a possible consequence, but not a noun that fits the sentence.\n\nThus the best fit is **crime**.\n\n**Final Answer: B**</reasoning>"
+    },
+    {
+      "question_id": "bdcfbe2132295d437e4c5701085f19c0",
+      "question": "If you are prone to postpone work what will you have to do in order to finish on time?",
+      "expected": "B",
+      "predicted": "D",
+      "correct": false,
+      "response": "The phrase “postpone work” means delaying it. To finish on time you must move the work earlier, i.e., **bring forward** the deadline.  \n\n**Answer: D**"
+    },
+    {
+      "question_id": "8d3dc21a53523850ec80771daaa5ff20",
+      "question": "James wanted to find an old underground map from the 50s.  Where might he look for one?",
+      "expected": "A",
+      "predicted": "A",
+      "correct": true,
+      "response": "<reasoning>\nAn old underground map from the 1950s would most likely be held in a public institution that preserves historical records. Libraries often have archives of maps, especially those related to urban planning or transportation from that era. While a subway station might have a modern map, it would not likely keep an old 1950s map. The county engineer’s office could also have such maps, but the more common and accessible place for a general public to look is a library. A supermarket and a home are unlikely sources. Therefore, the best answer is **A. library**.\n</reasoning>\n\nFinal Answer: A"
+    },
+    {
+      "question_id": "a80ee7775e934c423012fe98e20ba28b",
+      "question": "Sean was in a rush to get home, but the light turned yellow and he was forced to do what?",
+      "expected": "E",
+      "predicted": "E",
+      "correct": true,
+      "response": "The situation describes Sean needing to hurry, but the yellow light makes him have to reduce his speed. The appropriate action is to **slow down**.\n\n**Final Answer: E**"
+    },
+    {
+      "question_id": "48a315cfa3ce11f7a9d615bc854331d5",
+      "question": "Where would a person be doing when having to wait their turn?",
+      "expected": "D",
+      "predicted": "D",
+      "correct": true,
+      "response": "The phrase “having to wait your turn” implies that the person is standing in a line, waiting for their turn.  \n\n**Correct choice:** D. stand in line  \n\n**Final Answer: D**"
+    },
+    {
+      "question_id": "4acd496cc78d96c2431279a5fd87de7c",
+      "question": "She was always helping at the senior center, it brought her what?",
+      "expected": "E",
+      "predicted": "E",
+      "correct": true,
+      "response": "The sentence is looking for a noun that describes the positive effect the helping at the senior center had on her. “Satisfaction” and “happiness” are both appropriate, but the most natural fit in this context is **happiness**.\n\n**Final Answer: E**"
+    },
+    {
+      "question_id": "91e0f4ab62c9d2fd440d73a3f5308d96",
+      "question": "The lock kept the steering wheel from moving, but the thief still took his chances and began to work on the what?",
+      "expected": "C",
+      "predicted": "C",
+      "correct": true,
+      "response": "The sentence describes a situation where the steering wheel is locked, yet the thief proceeds to try to disable the part that controls the engine. The logical component to tamper with after the steering lock is the **ignition switch**.\n\n**Final Answer: C**"
+    },
+    {
+      "question_id": "b61e849e44db16a581f0b65e28ab95dc",
+      "question": "Who is a police officer likely to work for?",
+      "expected": "C",
+      "predicted": "C",
+      "correct": true,
+      "response": "<reasoning>\nThe question asks for the entity a police officer is most likely to work for. Police officers are employed by municipal or local government bodies, such as a city or town. Among the answer choices, “city” directly represents that employer, whereas the other options (beat, direct traffic, street, president) are not organizations that hire police officers.\n</reasoning>\n\nFinal Answer: C"
+    },
+    {
+      "question_id": "ba6bd1bdef02d0ebfe5370f92365ae18",
+      "question": "If you have leftover cake, where would you put it?",
+      "expected": "B",
+      "predicted": "B",
+      "correct": true,
+      "response": "<reasoning>\nThe question asks for a place to store leftover cake.  \n- “Quandry” is not a storage location.  \n- “Refrigerator” is the typical place to keep perishable leftovers.  \n- “Oven” is for baking, not storing.  \n- “Night stand” is a piece of furniture, not a storage unit.  \n- “Bakery” is a place where cake is sold, not where you would keep your own leftover.  \n\nTherefore, the appropriate answer is **refrigerator**.\n</reasoning>\n\nFinal Answer: B"
+    },
+    {
+      "question_id": "dc55d473c22b04877b11d584f9548194",
+      "question": "A human wants to submerge himself in water, what should he use?",
+      "expected": "A",
+      "predicted": "A",
+      "correct": true,
+      "response": "<reasoning>\nThe question asks what a human should use to submerge himself in water.  \n- A **whirlpool bath** is a bathtub with jets that can fully submerge a person.  \n- A **coffee cup**, **cup**, and **soft drink** are too small and would only hold a small amount of water, not enough to submerge a person.  \n- A **puddle** might be deep enough, but it is not a tool or device specifically designed for submersion and is generally not reliable or safe.\n\nTherefore, the most appropriate choice is a whirlpool bath.\n</reasoning>\n\nFinal Answer: A"
+    },
+    {
+      "question_id": "113aaea2b1a27a976547f54e531d99bb",
+      "question": "Where is a doormat likely to be in front of?",
+      "expected": "B",
+      "predicted": "B",
+      "correct": true,
+      "response": "<reasoning>\nA doormat is placed in front of the entrance to a building, typically the front door or the threshold of the entrance. While “entrance porch” is also possible, the most direct and common location for a doormat is in front of the front door. Therefore, the best answer is option B.\n</reasoning>\n\nFinal Answer: B"
+    },
+    {
+      "question_id": "ba640b9634ad6b4ad98b17b4f152e562",
+      "question": "Bob the lizard lives in a warm place with lots of water.  Where does he probably live?",
+      "expected": "B",
+      "predicted": "B",
+      "correct": true,
+      "response": "<reasoning>\nThe description points to a warm, moist environment suitable for a lizard. A tropical rainforest provides both warmth and abundant water, which matches the clue. The other options (rock, jazz club, New Mexico, rocky places) do not consistently offer the “lots of water” aspect. Therefore, the most appropriate location is a tropical rainforest.\n</reasoning>\n\nFinal Answer: B"
+    },
+    {
+      "question_id": "750ebdf36a0b3b407be0fe2163e3700b",
+      "question": "August needed  money because he was afraid that he'd be kicked out of his house.  What did he need money to do?",
+      "expected": "B",
+      "predicted": "B",
+      "correct": true,
+      "response": "<reasoning>\nThe passage says August needed money because he was afraid he’d be kicked out of his house. Being evicted usually means he must pay the rent or mortgage to stay. Therefore, he needed money to pay his bills (rent/mortgage). The other options (control people, hurt people, buy food, get things) are not directly linked to the immediate reason of being kicked out of the house.\n</reasoning>\n\nFinal Answer: B"
+    },
+    {
+      "question_id": "8f01273422a370a8dbda6bf473a395a0",
+      "question": "He needed more information to fix it, so he consulted the what?",
+      "expected": "E",
+      "predicted": "E",
+      "correct": true,
+      "response": "The most appropriate word to complete the sentence is “manual,” as people often look at a user or repair manual to get more information about how to fix something.\n\n**Final Answer: E**"
+    },
+    {
+      "question_id": "e6586bba9fe96d38792e6e6d4f2703dc",
+      "question": "Where can you put a picture frame when it's not hung vertically?",
+      "expected": "E",
+      "predicted": "E",
+      "correct": true,
+      "response": "The only place listed that allows a picture frame to be placed horizontally (not hung vertically) is a **table**.  \n\n**Final Answer: E**"
+    },
+    {
+      "question_id": "6e433471d0e2590b8c73ceef275022b1",
+      "question": "James knew that he shouldn't have been buying beer for minors.  He didn't even get paid for it.  Why was this bad?",
+      "expected": "D",
+      "predicted": "D",
+      "correct": true,
+      "response": "<reasoning>\nThe scenario describes James providing beer to minors, which is illegal. Even though he didn’t receive payment, the act itself violates a legal prohibition. The main consequence is that he is breaking the law, not losing money, having no money, or experiencing relaxation. Therefore, the correct reason is that it is a broken law.\n</reasoning>\n\nFinal Answer: D"
+    },
+    {
+      "question_id": "1bc986f8aea88d6927d8a45367855a94",
+      "question": "What is the result of applying for  job?",
+      "expected": "E",
+      "predicted": "E",
+      "correct": true,
+      "response": "<reasoning>\nThe question asks for the result of applying for a job. The logical outcome of successfully applying for a job is that the applicant becomes employed. The other options (anxiety, increased workload, praise, less sleep) are possible side‑effects or unrelated outcomes, but they are not the direct result of applying for a job. Therefore, the correct answer is “being employed.”\n</reasoning>\n\nFinal Answer: E"
+    },
+    {
+      "question_id": "8d1563697d751a364d688d6701ebdb39",
+      "question": "What must someone do before they shop?",
+      "expected": "A",
+      "predicted": "A",
+      "correct": true,
+      "response": "<reasoning>\nThe question asks what a person must do **before** they shop.  \n- “Get money” implies obtaining funds, which is necessary to be able to shop.  \n- “Have money” is a condition that must be true, but the action taken before shopping is to obtain it.  \n- “Bring cash” is a specific way of having money, but the general requirement is simply to have money, which can be obtained before shopping.  \n- “Go to market” is the act of shopping itself, not something done before.  \n\nTherefore, the most appropriate answer is that the person must **get money** before they shop.\n</reasoning>\n\nFinal Answer: A"
+    },
+    {
+      "question_id": "91f512273a2da7ae796919069b20d6cf",
+      "question": "Because John was first violin, he had to bring something important to work ever day. What did he need to bring to work?",
+      "expected": "E",
+      "predicted": "E",
+      "correct": true,
+      "response": "The clue points to the instrument a first violinist must transport daily – his violin, which requires a case.  \n\n**Final Answer: E**"
+    },
+    {
+      "question_id": "49cda7eedbf63b3f38e59ba72f1ee1f9",
+      "question": "What is a place that usually does not have an elevator and that sometimes has a telephone book?",
+      "expected": "E",
+      "predicted": "D",
+      "correct": false,
+      "response": "The description fits a **telephone booth** – it rarely has an elevator and often contains a telephone book.  \n\n**Final Answer: D**"
+    },
+    {
+      "question_id": "a588407ecaecf0f30c2241c30b470fe2",
+      "question": "Who is likely to be excited about a crab?",
+      "expected": "C",
+      "predicted": "C",
+      "correct": true,
+      "response": "<reasoning>\nThe question asks for a “who” that would be excited about a crab. Among the options, only a living entity that could have a reaction to a crab is a person. The fish market, pet shop, and intertidal zone are places or environments, not entities that can be excited. “Obesity” is a condition, not a person. The only plausible answer is a fishmonger, who sells fish and seafood and would likely be interested in crabs as a product. Therefore, the most appropriate choice is C.\n</reasoning>\n\nFinal Answer: C"
+    }
+  ]
+}
