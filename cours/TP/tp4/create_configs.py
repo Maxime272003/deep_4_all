@@ -96,6 +96,8 @@ if __name__ == "__main__":
     create_dataset_info()
     create_stage1_config()
     create_stage2_config()
+    create_inference_config()
     print("\nPour lancer l'entraînement:")
     print(f"  llamafactory-cli train {CONFIGS_DIR / 'stage1_config.yaml'}")
     print(f"  llamafactory-cli train {CONFIGS_DIR / 'stage2_config.yaml'}")
+    print(f"  llamafactory-cli chat {CONFIGS_DIR / 'inference_config.yaml'}")
