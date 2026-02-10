@@ -1,7 +1,7 @@
 # Dépendances TP4 DASD
 python-dotenv
 requests
-llama-factory
+llamafactory
 transformers>=4.40.0
 datasets
 openai

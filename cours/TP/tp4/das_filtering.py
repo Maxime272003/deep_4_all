@@ -67,28 +67,54 @@ class DASFilter:
             self._load_student_model()
     
     def _load_student_model(self):
-        """Charge le modèle étudiant en 4-bit"""
+        """Charge le modèle étudiant"""
         print(f"Chargement du modèle étudiant: {STUDENT_MODEL_ID}...")
         
-        bnb_config = BitsAndBytesConfig(
-            load_in_4bit=True,
-            bnb_4bit_quant_type="nf4",
-            bnb_4bit_compute_dtype=torch.float16,
-        )
-        
+        # Vérification GPU
+        if torch.cuda.is_available():
+            print("✅ GPU détecté! Utilisation de la quantification 4-bit (rapide)")
+            device_map = "auto"
+            try:
+                bnb_config = BitsAndBytesConfig(
+                    load_in_4bit=True,
+                    bnb_4bit_quant_type="nf4",
+                    bnb_4bit_compute_dtype=torch.float16,
+                )
+                
+                self.model = AutoModelForCausalLM.from_pretrained(
+                    STUDENT_MODEL_ID,
+                    quantization_config=bnb_config,
+                    device_map=device_map,
+                    trust_remote_code=True
+                )
+            except Exception as e:
+                print(f"⚠️ Erreur lors du chargement 4-bit (bitsandbytes): {e}")
+                print("Tentative de chargement standard sur GPU...")
+                self.model = AutoModelForCausalLM.from_pretrained(
+                    STUDENT_MODEL_ID,
+                    device_map=device_map,
+                    trust_remote_code=True,
+                    torch_dtype=torch.float16
+                )
+        else:
+            print("⚠️ AUCUN GPU DÉTECTÉ! Le modèle va tourner sur CPU (très lent).")
+            print("Pour activer le GPU, installez PyTorch avec le support CUDA.")
+            print("Désactivation de la quantification 4-bit (incompatible CPU).")
+            
+            self.model = AutoModelForCausalLM.from_pretrained(
+                STUDENT_MODEL_ID,
+                device_map="cpu",  # Force CPU
+                trust_remote_code=True,
+                torch_dtype=torch.float32 # CPU ne supporte pas toujours float16 bien
+            )
+            
         self.tokenizer = AutoTokenizer.from_pretrained(
             STUDENT_MODEL_ID, 
             trust_remote_code=True
         )
         
-        self.model = AutoModelForCausalLM.from_pretrained(
-            STUDENT_MODEL_ID,
-            quantization_config=bnb_config,
-            device_map="auto",
-            trust_remote_code=True
-        )
         self.model.eval()
-        print("Modèle chargé avec succès!")
+        print(f"Modèle chargé sur: {self.model.device}")
     
     def _compute_student_logprobs(
         self, 
