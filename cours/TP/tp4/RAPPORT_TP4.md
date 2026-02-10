@@ -48,6 +48,12 @@ Nous avons analysé la distribution des contributions d'information avant et apr
 
 L'entraînement a été réalisé avec **Llama-Factory**, un framework optimisé pour le Fine-Tuning. Nous avons utilisé la technique **LoRA (Low-Rank Adaptation)** pour adapter efficacement le modèle Qwen-4B sans modifier tous ses poids.
 
+Nous avons suivi la convergence de l'entraînement via la courbe de perte (loss) :
+
+**Figure 3 : Courbe d'apprentissage (Training Loss)**
+![Courbe de Loss](logs/training_loss.png)
+*La perte diminue régulièrement, passant de ~0.8 à ~0.4, ce qui indique que le modèle apprend efficacement la tâche sans rencontrer d'instabilité majeure.*
+
 Le processus d'apprentissage s'est déroulé en deux étapes (Two-Stage Distillation) :
 
 1.  **Stage 1 (Burn-in)** : Entraînement sur un dataset généré avec une température basse ($\tau=0.3$).
