@@ -34,6 +34,16 @@ Une phrase est considérée comme une **"Teacher Sentence"** (utile à apprendre
 
 Un exemple est conservé pour l'entraînement uniquement s'il contient une proportion significative ($>30\%$) de ces phrases riches en information. Cela permet d'éliminer les exemples triviaux que l'étudiant maîtrise déjà.
 
+Nous avons analysé la distribution des contributions d'information avant et après filtrage :
+
+**Figure 1 : Distribution Intitiale (Stage 1)**
+![Distribution DAS Stage 1](logs/das_stage1.png)
+*On observe que beaucoup d'exemples ont une contribution faible (pics à gauche), signifiant que le Teacher n'apporte pas grand chose par rapport à ce que le Student sait déjà.*
+
+**Figure 2 : Distribution Filtrée pour le Distillation (Stage 2)**
+![Distribution DAS Stage 2](logs/das_stage2.png)
+*Après filtrage, nous ne gardons que les exemples avec une forte divergence (partie droite), assurant que chaque exemple d'entraînement "challenge" le modèle.*
+
 ### 2.3 Configuration de l'Entraînement (Phase 5 & 6)
 
 L'entraînement a été réalisé avec **Llama-Factory**, un framework optimisé pour le Fine-Tuning. Nous avons utilisé la technique **LoRA (Low-Rank Adaptation)** pour adapter efficacement le modèle Qwen-4B sans modifier tous ses poids.
