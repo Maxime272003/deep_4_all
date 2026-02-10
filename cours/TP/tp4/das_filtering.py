@@ -22,7 +22,7 @@ from config import (
     LOGS_DIR
 )
 
-# Télécharger les ressources NLTK
+
 nltk.download('punkt', quiet=True)
 nltk.download('punkt_tab', quiet=True)
 
@@ -34,7 +34,7 @@ class SentenceScore:
     p_teacher: float
     p_student: float
     divergence: float
-    sentence_type: str  # "teacher", "shared", "student"
+    sentence_type: str
 
 
 @dataclass
@@ -70,9 +70,8 @@ class DASFilter:
         """Charge le modèle étudiant"""
         print(f"Chargement du modèle étudiant: {STUDENT_MODEL_ID}...")
         
-        # Vérification GPU
         if torch.cuda.is_available():
-            print("✅ GPU détecté! Utilisation de la quantification 4-bit (rapide)")
+            print("GPU détecté! Utilisation de la quantification 4-bit (rapide)")
             device_map = "auto"
             try:
                 bnb_config = BitsAndBytesConfig(
@@ -88,7 +87,7 @@ class DASFilter:
                     trust_remote_code=True
                 )
             except Exception as e:
-                print(f"⚠️ Erreur lors du chargement 4-bit (bitsandbytes): {e}")
+                print(f"Erreur lors du chargement 4-bit (bitsandbytes): {e}")
                 print("Tentative de chargement standard sur GPU...")
                 self.model = AutoModelForCausalLM.from_pretrained(
                     STUDENT_MODEL_ID,
@@ -103,9 +102,9 @@ class DASFilter:
             
             self.model = AutoModelForCausalLM.from_pretrained(
                 STUDENT_MODEL_ID,
-                device_map="cpu",  # Force CPU
+                device_map="cpu",  
                 trust_remote_code=True,
-                torch_dtype=torch.float32 # CPU ne supporte pas toujours float16 bien
+                torch_dtype=torch.float32 
             )
             
         self.tokenizer = AutoTokenizer.from_pretrained(
@@ -131,7 +130,6 @@ class DASFilter:
         Returns:
             Tuple (token_logprobs, token_ids) pour la partie réponse
         """
-        # Formatter le prompt comme le modèle s'attend à le voir
         messages = [{"role": "user", "content": prompt}]
         prompt_str = self.tokenizer.apply_chat_template(
             messages,
@@ -139,30 +137,23 @@ class DASFilter:
             add_generation_prompt=True
         )
         
-        # Texte complet
         full_input_str = prompt_str + response
         
-        # Tokeniser
         inputs = self.tokenizer(full_input_str, return_tensors="pt").to(self.model.device)
         
-        # Longueur du prompt en tokens
         prompt_tokens_len = len(self.tokenizer(prompt_str, add_special_tokens=False)["input_ids"])
         
-        # Forward pass
         with torch.no_grad():
             outputs = self.model(**inputs)
             logits = outputs.logits
         
-        # Shift pour prédiction du token suivant
         shift_logits = logits[0, :-1, :]
         shift_labels = inputs["input_ids"][0, 1:]
         
-        # Calcul des log-probabilités
         loss_fct = torch.nn.CrossEntropyLoss(reduction='none')
         token_losses = loss_fct(shift_logits, shift_labels)
         token_logprobs = -token_losses.cpu().numpy()
         
-        # Garder seulement la partie réponse
         response_logprobs = token_logprobs[prompt_tokens_len - 1:]
         response_token_ids = shift_labels[prompt_tokens_len - 1:].cpu().numpy()
         
@@ -186,11 +177,11 @@ class DASFilter:
         divergence = p_teacher - p_student
         
         if p_teacher > DAS_P_TEACHER_THRESHOLD and divergence > DAS_DIVERGENCE_THRESHOLD:
-            return "teacher"  # Le teacher sait, l'étudiant ignore -> GARDER
+            return "teacher"  
         elif abs(divergence) < DAS_DIVERGENCE_THRESHOLD:
-            return "shared"   # Connaissances partagées -> NEUTRE
+            return "shared"   
         else:
-            return "student"  # L'étudiant est trop confiant -> REJETER
+            return "student"  
     
     def calculate_sentence_scores(
         self,
@@ -209,26 +200,20 @@ class DASFilter:
         Returns:
             Liste de scores par phrase
         """
-        # Découper en phrases
         sentences = nltk.tokenize.sent_tokenize(response)
         
         if not sentences:
             return []
         
-        # Si pas de logprobs teacher, utiliser des valeurs par défaut
         if not teacher_logprobs:
             print("Warning: Pas de logprobs teacher, utilisation de valeurs estimées")
-            # Simulation: le teacher est confiant sur tout
             teacher_probs = [0.8] * len(sentences)
         else:
-            # Calculer P_teacher par phrase via alignement
             teacher_probs = self._align_teacher_probs(response, sentences, teacher_logprobs)
         
-        # Calculer P_student par phrase
         student_logprobs, token_ids = self._compute_student_logprobs(prompt, response)
         student_probs = self._align_student_probs(response, sentences, student_logprobs, token_ids)
         
-        # Créer les scores
         scores = []
         for sent, p_t, p_s in zip(sentences, teacher_probs, student_probs):
             divergence = p_t - p_s
@@ -267,11 +252,10 @@ class DASFilter:
                 if len(current_accum) >= len(sent):
                     break
             
-            # Moyenne géométrique (exp of mean log)
             if sent_logprobs:
                 p_mean = np.exp(np.mean(sent_logprobs))
             else:
-                p_mean = 0.5  # Valeur par défaut
+                p_mean = 0.5  
             
             probs.append(float(p_mean))
         
@@ -341,12 +325,10 @@ class DASFilter:
                 keep=False
             )
         
-        # Calculer les métriques globales
         teacher_sentences = [s for s in sentence_scores if s.sentence_type == "teacher"]
         teacher_ratio = len(teacher_sentences) / len(sentence_scores)
         total_divergence = sum(s.divergence for s in sentence_scores)
         
-        # Décision finale
         keep = teacher_ratio >= DAS_MIN_TEACHER_SENTENCES_RATIO
         
         return ExampleDASScore(
@@ -405,7 +387,6 @@ class DASFilter:
                     
             except Exception as e:
                 print(f"Erreur DAS: {e}")
-                # En cas d'erreur, garder l'exemple par défaut
                 kept.append({
                     "instruction": example["instruction"],
                     "response": example["response"],
@@ -413,7 +394,6 @@ class DASFilter:
                     "das_score": {"error": str(e)}
                 })
         
-        # Sauvegarder au format ShareGPT
         sharegpt_data = [
             {
                 "conversations": [
@@ -473,21 +453,18 @@ def run_das_filtering():
     
     das_filter = DASFilter(load_model=True)
     
-    # Filtrer Stage 1
     print("\n--- Stage 1 ---")
     kept1, rejected1 = das_filter.filter_dataset(
         "csqa_stage1_raw.json",
         "csqa_stage1_filtered.json"
     )
     
-    # Filtrer Stage 2
     print("\n--- Stage 2 ---")
     kept2, rejected2 = das_filter.filter_dataset(
         "csqa_stage2_raw.json",
         "csqa_stage2_filtered.json"
     )
     
-    # Tracer les distributions
     das_filter.plot_das_distribution(kept1, rejected1, "das_stage1.png")
     das_filter.plot_das_distribution(kept2, rejected2, "das_stage2.png")
     

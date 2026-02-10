@@ -30,8 +30,8 @@ STUDENT_MODEL_ID = "unsloth/Qwen3-4B-Instruct-2507-unsloth-bnb-4bit"
 
 # === PARAMÈTRES DE GÉNÉRATION ===
 MAX_TOKENS = 2000
-TEMPERATURE_STAGE1 = 0.3  # Basse température pour stabilité
-TEMPERATURE_STAGE2 = 0.9  # Haute température pour diversité
+TEMPERATURE_STAGE1 = 0.3  
+TEMPERATURE_STAGE2 = 0.9  
 
 # === SYSTEM PROMPT POUR LE RAISONNEMENT ===
 SYSTEM_PROMPT = """You are a helpful assistant that reasons step by step. 
@@ -41,9 +41,9 @@ For multiple choice questions, analyze each option carefully before selecting yo
 After your reasoning, clearly state your final answer as: "Final Answer: [LETTER]" where [LETTER] is A, B, C, D, or E."""
 
 # === PARAMÈTRES DAS ===
-DAS_P_TEACHER_THRESHOLD = 0.6  # Seuil de confiance du teacher
-DAS_DIVERGENCE_THRESHOLD = 0.2  # Seuil de divergence T-S
-DAS_MIN_TEACHER_SENTENCES_RATIO = 0.3  # Ratio minimum de Teacher Sentences
+DAS_P_TEACHER_THRESHOLD = 0.6  
+DAS_DIVERGENCE_THRESHOLD = 0.2  
+DAS_MIN_TEACHER_SENTENCES_RATIO = 0.3  
 
 # === PARAMÈTRES D'ENTRAÎNEMENT ===
 LORA_RANK = 16
@@ -55,6 +55,6 @@ LEARNING_RATE = 2e-4
 NUM_EPOCHS = 3
 
 # === DATASET ===
-NUM_SAMPLES_STAGE1 = 550  # Nombre d'exemples pour Stage 1 (réduit pour tests)
-NUM_SAMPLES_STAGE2 = 550  # Nombre d'exemples pour Stage 2 (réduit pour tests)
-API_DELAY_SECONDS = 0.5  # Délai entre les requêtes API (rate limiting)
+NUM_SAMPLES_STAGE1 = 550  
+NUM_SAMPLES_STAGE2 = 550  
+API_DELAY_SECONDS = 0.5  

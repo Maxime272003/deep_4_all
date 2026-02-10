@@ -116,7 +116,7 @@ Please analyze this question step by step and select the correct answer."""
             outputs = self.model.generate(
                 **inputs,
                 max_new_tokens=max_new_tokens,
-                do_sample=False,  # Greedy pour l'évaluation
+                do_sample=False,  
                 pad_token_id=self.tokenizer.eos_token_id
             )
         
@@ -138,7 +138,6 @@ Please analyze this question step by step and select the correct answer."""
         Returns:
             La lettre (A-E) ou None si non trouvée
         """
-        # Patterns courants pour trouver la réponse
         patterns = [
             r"Final Answer:\s*([A-E])",
             r"The answer is\s*([A-E])",
@@ -157,7 +156,6 @@ Please analyze this question step by step and select the correct answer."""
             if match:
                 return match.group(1).upper()
         
-        # Fallback: chercher la dernière mention d'une lettre A-E
         matches = re.findall(r'\b([A-E])\b', response_upper)
         if matches:
             return matches[-1]
@@ -251,9 +249,8 @@ def run_evaluation():
     print("ÉVALUATION DU MODÈLE")
     print("=" * 60)
     
-    num_samples = 50  # Ajuster selon le temps disponible
+    num_samples = 50  
     
-    # 1. Évaluer le modèle de base (sans distillation)
     print("\n--- Modèle de base (sans distillation) ---")
     base_evaluator = ModelEvaluator(adapter_path=None)
     base_accuracy, base_results = base_evaluator.evaluate_dataset(
@@ -263,11 +260,9 @@ def run_evaluation():
     base_evaluator.save_results(base_accuracy, base_results, "eval_base_model.json")
     print(f"Accuracy modèle de base: {base_accuracy * 100:.2f}%")
     
-    # Libérer la mémoire
     del base_evaluator
     torch.cuda.empty_cache()
     
-    # 2. Évaluer le modèle distillé (Stage 1)
     stage1_path = CHECKPOINTS_DIR / "csqa_stage1"
     if stage1_path.exists():
         print("\n--- Modèle distillé (Stage 1) ---")
@@ -285,7 +280,6 @@ def run_evaluation():
         print(f"\nAdapter Stage 1 non trouvé: {stage1_path}")
         stage1_accuracy = None
     
-    # 3. Évaluer le modèle distillé (Stage 2)
     stage2_path = CHECKPOINTS_DIR / "csqa_stage2"
     if stage2_path.exists():
         print("\n--- Modèle distillé (Stage 2) ---")
@@ -302,7 +296,6 @@ def run_evaluation():
         print(f"\nAdapter Stage 2 non trouvé: {stage2_path}")
         stage2_accuracy = None
     
-    # 4. Résumé
     print("\n" + "=" * 60)
     print("RÉSUMÉ DES RÉSULTATS")
     print("=" * 60)

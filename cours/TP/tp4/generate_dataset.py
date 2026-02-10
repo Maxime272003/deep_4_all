@@ -38,15 +38,14 @@ class GeneratedExample:
     temperature: float
     logprobs: Optional[List[Dict]] = None
     question_id: Optional[str] = None
-    confidence: Optional[float] = None  # Confiance moyenne (0-100%)
+    confidence: Optional[float] = None  
     
     def __post_init__(self):
         """Calcule la confiance à partir des logprobs"""
         if self.logprobs and self.confidence is None:
-            # Convertir log-probabilités en probabilités (exp) puis moyenne
             import numpy as np
             probs = [np.exp(lp["logprob"]) for lp in self.logprobs]
-            self.confidence = float(np.mean(probs) * 100)  # En pourcentage
+            self.confidence = float(np.mean(probs) * 100)  
 
 
 class DatasetGenerator:
@@ -83,7 +82,6 @@ class DatasetGenerator:
         question = example["question"]
         choices = example["choices"]
         
-        # Construire les options
         options_text = "\n".join([
             f"{label}. {text}" 
             for label, text in zip(choices["label"], choices["text"])
@@ -139,7 +137,6 @@ Please analyze this question step by step and select the correct answer."""
                 data = response.json()
                 content = data["choices"][0]["message"]["content"]
                 
-                # Extraire les logprobs si disponibles
                 logprobs = None
                 if "logprobs" in data["choices"][0] and data["choices"][0]["logprobs"]:
                     logprobs_data = data["choices"][0]["logprobs"].get("content", [])
@@ -158,7 +155,7 @@ Please analyze this question step by step and select the correct answer."""
             except Exception as e:
                 self.log(f"Erreur API (tentative {attempt + 1}/{max_retries}): {e}")
                 if attempt < max_retries - 1:
-                    time.sleep(5 * (attempt + 1))  # Backoff exponentiel
+                    time.sleep(5 * (attempt + 1))  
                     
         return None
     
@@ -173,14 +170,11 @@ Please analyze this question step by step and select the correct answer."""
         Returns:
             True si la réponse est de bonne qualité
         """
-        # Vérifier que la réponse n'est pas vide (critère minimal)
         if len(response.strip()) < 30:
             return False
         
-        # Accepter si la réponse contient du raisonnement (balises OU longueur suffisante)
         has_reasoning = "<reasoning>" in response.lower() or "step" in response.lower() or len(response) > 100
         
-        # Accepter si la réponse mentionne une option (A, B, C, D, E)
         has_answer_mention = any(
             letter in response.upper() 
             for letter in ["A", "B", "C", "D", "E"]
@@ -210,13 +204,11 @@ Please analyze this question step by step and select the correct answer."""
         self.log(f"=== Génération {stage_name} (τ={temperature}) ===")
         self.log(f"Chargement de CommonsenseQA...")
         
-        # Charger CommonsenseQA
         csqa = load_dataset("commonsense_qa", split="train")
         
         generated_data = []
         failed_count = 0
         
-        # Sélectionner les exemples
         end_idx = min(start_idx + num_samples, len(csqa))
         examples = csqa.select(range(start_idx, end_idx))
         
@@ -240,12 +232,10 @@ Please analyze this question step by step and select the correct answer."""
                 failed_count += 1
                 self.log(f"Échec pour l'exemple {start_idx + i}")
             
-            # Rate limiting
             time.sleep(API_DELAY_SECONDS)
         
         self.log(f"Terminé: {len(generated_data)} succès, {failed_count} échecs")
         
-        # Afficher les statistiques de confiance
         if generated_data:
             confidences = [ex.confidence for ex in generated_data if ex.confidence is not None]
             if confidences:
@@ -290,7 +280,6 @@ Please analyze this question step by step and select the correct answer."""
         self.log("DÉMARRAGE DE LA GÉNÉRATION DU DATASET")
         self.log("=" * 50)
         
-        # Stage 1 : Basse température
         stage1_data = self.generate_stage_dataset(
             temperature=TEMPERATURE_STAGE1,
             num_samples=NUM_SAMPLES_STAGE1,
@@ -298,19 +287,16 @@ Please analyze this question step by step and select the correct answer."""
             stage_name="stage1"
         )
         
-        # Sauvegarder Stage 1
         self.save_raw_dataset(stage1_data, "csqa_stage1_raw.json")
         self.convert_to_sharegpt(stage1_data, "csqa_stage1_sharegpt.json")
         
-        # Stage 2 : Haute température
         stage2_data = self.generate_stage_dataset(
             temperature=TEMPERATURE_STAGE2,
             num_samples=NUM_SAMPLES_STAGE2,
-            start_idx=NUM_SAMPLES_STAGE1,  # Commencer après Stage 1
+            start_idx=NUM_SAMPLES_STAGE1,  
             stage_name="stage2"
         )
         
-        # Sauvegarder Stage 2
         self.save_raw_dataset(stage2_data, "csqa_stage2_raw.json")
         self.convert_to_sharegpt(stage2_data, "csqa_stage2_sharegpt.json")
         

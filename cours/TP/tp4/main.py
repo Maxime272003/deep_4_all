@@ -58,16 +58,13 @@ def main():
         
     elif args.phase == "all":
         print("=== EXÉCUTION COMPLÈTE ===")
-        # Génération
         from generate_dataset import DatasetGenerator
         generator = DatasetGenerator()
         generator.run()
         
-        # DAS
         from das_filtering import run_das_filtering
         run_das_filtering()
         
-        # Configs
         from create_configs import create_dataset_info, create_stage1_config, create_stage2_config
         create_dataset_info()
         create_stage1_config()
